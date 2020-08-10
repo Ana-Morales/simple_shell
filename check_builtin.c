@@ -7,9 +7,10 @@
  */
 int check_builtin(char *s)
 {
-	builtin_t builtin[] = {{"exit", exit_func},
-			       {"env", display_env},
-			       {NULL, NULL},
+	builtin_t builtin[] = {
+		{"exit", exit_func},
+		{"env", display_env},
+		{NULL, NULL},
 	};
 	int i = 0;
 
