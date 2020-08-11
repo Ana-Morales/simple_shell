@@ -9,8 +9,9 @@
  * exit_func - this function closes the prompt when the exit command is passed
  * Return: None
  */
-void exit_func(void)
+void exit_func(char *args)
 {
+	free(args);
 	exit(EXIT_SUCCESS);
 }
 
@@ -19,7 +20,7 @@ void exit_func(void)
  *the enviromental variables.
  * Return: None.
  */
-void display_env(void)
+void display_env(char __attribute__((__unused__)) *args)
 {
 	char **ep;
 
