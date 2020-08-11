@@ -18,7 +18,7 @@ int check_builtin(char *s)
 	{
 		if (_strcmp(s, builtin[i].command) == 0)
 		{
-			builtin[i].fp();
+			builtin[i].fp(s);
 			return (0);
 		}
 		i++;
