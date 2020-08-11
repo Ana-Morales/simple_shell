@@ -12,7 +12,7 @@ char *_which(char *str)
 	char *path, *path1, *path_dup;
 	char *token, *str1;
 	char *slash = "/";
-	char *path_path[100];
+	char *path_path[100], *path2;
 
 	path = _getenv("PATH");
 	path1 = _strdup(path);
@@ -29,17 +29,20 @@ char *_which(char *str)
 
 	for (j = 0; path_path[j] != NULL; j++)
 	{
-		path_path[j] = str_concat(path_path[j], str1);
-		if (stat(path_path[j], &st) == 0)
+		path2 = str_concat(path_path[j], str1);
+		if (stat(path2, &st) == 0)
 		{
-			path_dup = _strdup(path_path[j]);
-			while (j--)
-			{
-				free(path_path[j]);
-			}
+			path_dup = _strdup(path2);
 			free(str1);
+			free(path1);
+			free(path);
+			free(path2);
 			return (path_dup);
 		}
+		free(path2);
 	}
+	free(str1);
+	free(path1);
+	free(path);
 	return (str);
 }
