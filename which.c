@@ -9,8 +9,8 @@ char *_which(char *str)
 {
 	unsigned int j = 0;
 	struct stat st;
-	char *path, *path1;
-	char *token, *str1, *path_3;
+	char *path, *path1, *path_dup;
+	char *token, *str1;
 	char *slash = "/";
 	char *path_path[100];
 
@@ -23,17 +23,22 @@ char *_which(char *str)
 		j++;
 		token = strtok(NULL, ":");
 	}
-	free(path1);
 	path_path[j] = NULL;
 
 	str1 = str_concat(slash, str);
 
 	for (j = 0; path_path[j] != NULL; j++)
 	{
-		path_3 = str_concat(path_path[j], str1);
-		if (stat(path_3, &st) == 0)
+		path_path[j] = str_concat(path_path[j], str1);
+		if (stat(path_path[j], &st) == 0)
 		{
-			return (path_3);
+			path_dup = _strdup(path_path[j]);
+			while (j--)
+			{
+				free(path_path[j]);
+			}
+			free(str1);
+			return (path_dup);
 		}
 	}
 	return (str);
