@@ -34,7 +34,7 @@ char *str_concat(char *s1, char *s2)
 		i++;
 	}
 	i = 0;
-	while (i < len2)
+	while (i <= len2)
 	{
 		conc[len1] = s2[i];
 		i++;
@@ -106,5 +106,24 @@ char *_strdup(char *str)
 		i++;
 		len--;
 	}
+	s[i] = '\0';
 	return (s);
+}
+/**
+ * _strcpy - copies the string pointed to by src, to buffer pointed to by dest.
+ * @dest: string result of copying
+ * @src: string to be copy
+ * Return: the pointer to dest
+ */
+char *_strcpy(char *dest, char *src)
+{
+	char *ans = dest;
+
+	while ((*dest = *src) != '\0')
+	{
+		src++;
+		dest++;
+	}
+	*dest = '\0';
+	return (ans);
 }
