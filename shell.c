@@ -7,8 +7,8 @@
 int main(void)
 {
 	pid_t child_pid;
-	int status, chars, satty = 0;
-	char **argv, *comm, *buffer = NULL;
+	int status, chars, satty = 0, checkcommand = 0;
+	char *args[10], *comm, *buffer = NULL;
 	size_t bufsize = 32;
 
 	satty = isatty(0);
@@ -22,10 +22,14 @@ int main(void)
 			continue;
 		if (chars != -1)
 		{
-			argv = token_func(buffer, argv);
-			if (argv[0] == NULL || check_builtin(argv[0]) == 0)
+			token_func(buffer, args);
+			if (args[0] == NULL || check_builtin(args[0]) == 0)
 				continue;
-			comm = _which(argv[0]);
+			comm = _which(args[0]);
+			if (_strcmp(comm, args[0]) == 0)
+				checkcommand = 1;
+			else if (_strcmp(comm, args[0]) != 0)
+				checkcommand = 0;
 			child_pid = fork();
 			if (child_pid == -1)
 			{
@@ -33,9 +37,13 @@ int main(void)
 				return (1);
 			}
 			if (child_pid == 0)
-				execute(comm, argv, NULL);
+				execute(comm, args, NULL);
 			else
+			{
 				wait(&status);
+				if (status == EXIT_SUCCESS && checkcommand == 0)
+					free(comm);
+			}
 		}
 		else
 			break;
@@ -45,11 +53,11 @@ int main(void)
 /**
  * token_func - function to call strtok function
  * @buffer: buffer with string to be broke into tokens
- * @argv:  array of strings where tokens will be stored
+ * @args:  array of strings where tokens will be stored
  *
  * Return: pointer to array with tokens
  */
-char **token_func(char *buffer, char **argv)
+void token_func(char *buffer, char **args)
 {
 	int i = 0;
 	char *token;
@@ -57,22 +65,22 @@ char **token_func(char *buffer, char **argv)
 	token = strtok(buffer, " \n");
 	for (i = 0; token != NULL; i++)
 	{
-		argv[i] = token;
+		args[i] = token;
 		token = strtok(NULL, " \n");
 	}
-	argv[i] = NULL;
-	return (argv);
+	args[i] = NULL;
+	return;
 }
 /**
  * execute - executes the associated command
  * @comm: command to be executed
- * @argv:  array of argument strings passed to the command
+ * @args:  array of argument strings passed to the command
  * @env: array of strings passed as environment to command
  * Return: Always 0.
  */
-int execute(char *comm, char *argv[], char *env[])
+int execute(char *comm, char *args[], char *env[])
 {
-	if  (execve(comm, argv, env) == -1)
+	if  (execve(comm, args, env) == -1)
 	{
 		perror("./shell");
 		exit(EXIT_SUCCESS);
