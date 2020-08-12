@@ -41,7 +41,7 @@ int main(void)
 			else
 			{
 				wait(&status);
-				if (status == EXIT_SUCCESS && checkcommand == 0)
+				if (checkcommand == 0)
 					free(comm);
 			}
 		}
@@ -83,7 +83,7 @@ int execute(char *comm, char *args[], char *env[])
 	if  (execve(comm, args, env) == -1)
 	{
 		perror("./shell");
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
 	return (0);
 }
