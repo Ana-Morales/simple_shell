@@ -9,8 +9,12 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <err.h>
+#include <errno.h>
+#define _GNU_SOURCE
 
 extern char **environ;
+extern char *program_invocation_name;
 
 /**
  * struct builtin_s - struct to find a built_in command
@@ -36,7 +40,7 @@ void exit_func(char *s);
 void display_env(char *s);
 char *_strdup(char *str);
 int check_builtin(char *s);
-int execute(char *comm, char *argv[], char *env[]);
+int execute(char *comm, char *argv[], char *env[], int count);
 void token_func(char *buffer, char **args);
 char *_strcpy(char *dest, char *src);
 #endif /*_HOLBERTON_H_*/
