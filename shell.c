@@ -1,4 +1,5 @@
 #include "holberton.h"
+
 /**
  * main - main function for our shell
  *
@@ -7,15 +8,18 @@
 int main(void)
 {
 	pid_t child_pid;
-	int status, chars, satty = 0, checkcommand = 0;
+	int status, chars, satty = 0, checkcommand = 0, count = 0;
 	char *args[10], *comm, *buffer = NULL;
-	size_t bufsize = 32;
+	size_t bufsize = 1024;
 
-	satty = isatty(0);
+
+
+	satty = isatty(STDIN_FILENO);
 	while (1)
 	{
 		if (satty == 1)
-			printf("$ ");
+			write(STDOUT_FILENO, "$ ", 2);
+		count++;
 		signal(SIGINT, SIG_IGN);
 		chars = getline(&buffer, &bufsize, stdin);
 		if (chars == 1)
@@ -37,7 +41,7 @@ int main(void)
 				return (1);
 			}
 			if (child_pid == 0)
-				execute(comm, args, NULL);
+				execute(comm, args, NULL, count);
 			else
 			{
 				wait(&status);
@@ -62,7 +66,7 @@ void token_func(char *buffer, char **args)
 	int i = 0;
 	char *token;
 
-	token = strtok(buffer, " \n");
+	token = strtok(buffer, " \n\t");
 	for (i = 0; token != NULL; i++)
 	{
 		args[i] = token;
@@ -78,12 +82,12 @@ void token_func(char *buffer, char **args)
  * @env: array of strings passed as environment to command
  * Return: Always 0.
  */
-int execute(char *comm, char *args[], char *env[])
+int execute(char *comm, char *args[], char *env[], int count)
 {
 	if  (execve(comm, args, env) == -1)
 	{
-		perror("./shell");
-		exit(EXIT_FAILURE);
+		write(STDERR_FILENO, "./", 2);
+		errx(EXIT_FAILURE, "%d: %s: not found", count, comm);
 	}
 	return (0);
 }
