@@ -8,16 +8,13 @@
 int main(void)
 {
 	pid_t child_pid;
-	int status, chars, satty = 0, checkcommand = 0, count = 0;
+	int status, chars, count = 0;
 	char *args[10], *comm, *buffer = NULL;
 	size_t bufsize = 1024;
 
-
-
-	satty = isatty(STDIN_FILENO);
 	while (1)
 	{
-		if (satty == 1)
+		if (isatty(STDIN_FILENO) == 1)
 			write(STDOUT_FILENO, "$ ", 2);
 		count++;
 		signal(SIGINT, SIG_IGN);
@@ -30,10 +27,6 @@ int main(void)
 			if (args[0] == NULL || check_builtin(args[0]) == 0)
 				continue;
 			comm = _which(args[0]);
-			if (_strcmp(comm, args[0]) == 0)
-				checkcommand = 1;
-			else if (_strcmp(comm, args[0]) != 0)
-				checkcommand = 0;
 			child_pid = fork();
 			if (child_pid == -1)
 			{
@@ -45,7 +38,7 @@ int main(void)
 			else
 			{
 				wait(&status);
-				if (checkcommand == 0)
+				if (_strcmp(comm, args[0]) != 0)
 					free(comm);
 			}
 		}
@@ -73,13 +66,13 @@ void token_func(char *buffer, char **args)
 		token = strtok(NULL, " \n");
 	}
 	args[i] = NULL;
-	return;
 }
 /**
  * execute - executes the associated command
  * @comm: command to be executed
  * @args:  array of argument strings passed to the command
  * @env: array of strings passed as environment to command
+ * @count: counter for the number of executed commands
  * Return: Always 0.
  */
 int execute(char *comm, char *args[], char *env[], int count)
