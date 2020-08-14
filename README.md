@@ -57,6 +57,11 @@ drwxr-xr-x 140 root root  4096 Aug 13 18:02 share
 drwxr-xr-x   5 root root  4096 Nov  7  2019 src
 bash $
 ```
+## Flowchart
+
+This is the flowchart of our program.
+
+![Flowchart](https://github.com/Ana-Morales/simple_shell/blob/master/flowchart_shell.png)
 
 ## Authors
 
