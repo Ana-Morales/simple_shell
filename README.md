@@ -8,7 +8,8 @@ This project contains the implementation of a UNIX simple line command interpret
 - getenv.c-> contains the function that brings the enviromen variable PATH.
 - functions_prints.c -> contains the functions allowed to print to the standar output.
 - check_builtin.c -> contains the function that checks if a command is a builtin function or not. 
-- aux_func.c -> contains the auxiliar function to deal with string manipulation.
+- built_in.c -> contains the function to be execute when command is a builtin function.
+- aux_func.c -> contains the auxiliar functions to deal with string manipulation.
 - holberton.h -> contains the definition of functions, structures and shared libraries.
 - man_1_simple_shell -> manual page archive
 
@@ -23,8 +24,7 @@ Simple_shell is an sh-compatible command language interpreter that executes comm
 #include "holberton.h"  
 /*Invocation*/
 bash $ ./simple_shell
-bash $
-$
+$      /*Our shell is running and waiting to receive commands*/
 /* command execution interactive */
 $ ls -l /usr
 total 76
@@ -38,7 +38,7 @@ drwxr-xr-x  10 root root  4096 Nov  7  2019 local
 drwxr-xr-x   2 root root  4096 Jun  2 04:21 sbin
 drwxr-xr-x 140 root root  4096 Aug 13 18:02 share
 drwxr-xr-x   5 root root  4096 Nov  7  2019 src
-```
+
 $pwd
 /home/vagrant/simple_shell
 
@@ -56,6 +56,7 @@ drwxr-xr-x   2 root root  4096 Jun  2 04:21 sbin
 drwxr-xr-x 140 root root  4096 Aug 13 18:02 share
 drwxr-xr-x   5 root root  4096 Nov  7  2019 src
 bash $
+```
 
 ## Authors
 
