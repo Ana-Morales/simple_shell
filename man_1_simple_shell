@@ -1,0 +1,152 @@
+.TH Simple_shell 1 "13 August 2020" "0.1" "Simple shell project man page" 
+.SH NAME
+.B Simple shell -- UNIX simple command language interpreter
+
+.SH SYNOPSIS
+.SY simple_shell
+.OP \-ci options
+.RI [file]
+.YS
+
+.SH DESCRIPTION
+The simple_shell program is a command language interpreter that shall
+execute commands reads from a command line string, the standard input,
+or specified file.
+
+The simple_shell is intended to simulate the basic functions contained
+on the original shell used by the bash. The functionality are execution
+of simple commands and execution of builtin commands like exit and env.
+
+.SH OPTIONS
+In  addition  to  the  single-character shell options documented in the
+description of the set builtin command, bash interprets  the  following
+options when it is invoked:
+.PP
+.PD 0
+.TP 10
+.BI \-c " string"
+If  the
+.B\-c
+option  is  present, then commands are read from
+.IR string .
+If there are arguments after the
+.IRstring ,
+they  are assigned to the positional parameters, starting with $0.
+.TP
+.B -i
+If the -i option is present, the shell is interactive.
+
+.SH ARGUMENTS
+If arguments remain after option processing, and neither the
+.B \-c
+option has been supplied, the first argument is assumed to
+be the name of a file containing shell commands.
+If
+.B simple_shell
+is invoked in this fashion,
+.B $0
+is set to the name of the file, and the positional parameters
+are set to the remaining arguments.
+.B simple_shell
+reads and executes commands from this file, then exits.
+\fBsimple_shell\fP's exit status is the exit status of the last command
+executed in the script.
+If no commands are executed, the exit status is 0.
+An attempt is first made to open the file in the current directory, and,
+if no file is found, then the shell searches the directories in
+.SM
+.B PATH
+for the script.
+
+.SH INVOCATION
+.PP
+
+If no args are present and if the standard input of the shell
+is connected to a terminal (or if the
+.Fl i
+flag is set),
+and the
+.Fl c
+option is not present, the simple_shell is considered an interactive
+shell. An interactive shell generally prompts before each command and
+handles programming and command errors differently.
+When first starting,
+the simple_shell inspects argument 0 (the simple_shell doesn't handle
+login shell argument).
+
+If command line arguments besides the options have been specified,
+then the simple_shell treats the first argument as the name of a file
+from which to read commands (a shell script), and the remaining
+arguments are set as the positional parameters of the simple_shell.
+Otherwise, the simple_shell reads commands from its standart input
+using getline function.
+
+.SH SHELL GRAMMAR
+.SS simple commands
+A
+.I simple command
+is a sequence of optional variable assigments followed by
+.B blank-separated
+words and  terminated by a
+.B control operator.
+The first word specifies the command to be executed, and is passed
+as argument zero. The remaining words are passed as arguments to the
+invoked command.
+
+The return value of a simple command is its exit status.
+
+.SH COMMAND EXECUTION
+
+After a command has been split into words, if it results  in  a  simple
+command  and  an  optional list of arguments, the following actions are
+taken.
+
+If the command name contains no slashes, the shell attempts  to  locate
+it. If  there  exists a shell function by that name, that function is
+invoked.  If the name does not match  a function,  the shell searches
+for it in the list of shell builtins.  If a match is found, that builtin
+is invoked.
+
+If the name is neither a shell function nor a builtin, and contains  no
+slashes, simple_shell  searches  each element of the PATH for a directory
+containing an executable file by that name. A full search of the
+directories in  PATH  is performed. If the search is unsuccessful,
+the shell prints an error message  and  returns an exit status of 127.
+
+If  the  search  is  successful, or if the command name contains one or
+more slashes, the shell executes the named program in a separate
+execution environment.  Argument 0 is set to the name given, and the
+remaining arguments to the command are set to the arguments given, if any.
+
+.SH SHELL BUILTIN COMMANDS
+
+.TP
+.B exit
+Cause the simple_shell to exit with a status of the last command executed.
+.TP
+.B env
+Print the simple_shell enviroment file to the stdout
+
+.SH SEE ALSO
+.PD 0
+.TP
+sh(1), bash(1), dash(1), csh(1), echo(1), environ(1)
+.TP
+\fIBash Reference Manual\fP, Brian Fox and Chet Ramey
+
+.SH EXAMPLE
+The following exmaples shows how to perform the different execution
+of a command on the simple_shell to list all the files on the /home
+directory with the long format argument.
+.TP
+1. ls -l /usr --> interactive mode
+.TP
+2. ./simple_shell -c "ls -l /usr" --> string option mode
+.TP
+3. echo "ls -l /usr" | ./simple_shell --> pipe mode
+
+.SH BUGS
+No know bugs
+
+.SH AUTHOR
+Ana Ruth Morales and Sebastian Orozco

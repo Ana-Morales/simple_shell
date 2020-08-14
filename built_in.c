@@ -1,12 +1,14 @@
 #include "holberton.h"
 
 /*
- * This document contains the built_in functions for the virtual shell
+ * This document contains the built_in functions for the simple shell
  *
  */
 
 /**
  * exit_func - this function closes the prompt when the exit command is passed
+ * @args: Pointer with the direction to free  the allocated memory for
+ * the  arguments passed to the program.
  * Return: None
  */
 void exit_func(char *args)
@@ -17,7 +19,9 @@ void exit_func(char *args)
 
 /**
  * display_env - This funcition prints in the stdout
- *the enviromental variables.
+ * the enviromental variables.
+ * @args: Pointer with the direction to free  the allocated memory for
+ * the  arguments passed to the program.
  * Return: None.
  */
 void display_env(char __attribute__((__unused__)) *args)
