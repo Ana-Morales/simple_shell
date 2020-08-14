@@ -4,51 +4,37 @@
 
 .SH SYNOPSIS
 .SY simple_shell
-.OP \-ci options
-.RI [file]
 .YS
 
 .SH DESCRIPTION
-The simple_shell program is a command language interpreter that shall
-execute commands reads from a command line string, the standard input,
+The simple_shell program is a command language interpreter that
+executes commands reads from a command line string, the standard input,
 or specified file.
 
 The simple_shell is intended to simulate the basic functions contained
 on the original shell used by the bash. The functionality are execution
 of simple commands and execution of builtin commands like exit and env.
 
-.SH OPTIONS
-In  addition  to  the  single-character shell options documented in the
-description of the set builtin command, bash interprets  the  following
-options when it is invoked:
+.SH INVOCATION
 .PP
-.PD 0
-.TP 10
-.BI \-c " string"
-If  the
-.B\-c
-option  is  present, then commands are read from
-.IR string .
-If there are arguments after the
-.IRstring ,
-they  are assigned to the positional parameters, starting with $0.
-.TP
-.B -i
-If the -i option is present, the shell is interactive.
+The simple_shell is considered an interactive
+shell. An interactive shell generally prompts before each command and
+handles programming and command errors differently.
+When first starting,
+the simple_shell inspects argument 0.
+
+If command line arguments besides the options have been specified,
+then the simple_shell treats the first argument as the name of a file
+from which to read commands (a shell script), and the remaining
+arguments are set as the positional parameters of the simple_shell.
+Otherwise, the simple_shell reads commands from its standart input
+using getline function.
 
 .SH ARGUMENTS
-If arguments remain after option processing, and neither the
-.B \-c
-option has been supplied, the first argument is assumed to
-be the name of a file containing shell commands.
-If
-.B simple_shell
-is invoked in this fashion,
-.B $0
-is set to the name of the file, and the positional parameters
+the simple shell takes as the name of the command the fisrt argument
+passed to the interactive prompt  and the positional parameters
 are set to the remaining arguments.
-.B simple_shell
-reads and executes commands from this file, then exits.
+
 \fBsimple_shell\fP's exit status is the exit status of the last command
 executed in the script.
 If no commands are executed, the exit status is 0.
@@ -57,29 +43,6 @@ if no file is found, then the shell searches the directories in
 .SM
 .B PATH
 for the script.
-
-.SH INVOCATION
-.PP
-
-If no args are present and if the standard input of the shell
-is connected to a terminal (or if the
-.Fl i
-flag is set),
-and the
-.Fl c
-option is not present, the simple_shell is considered an interactive
-shell. An interactive shell generally prompts before each command and
-handles programming and command errors differently.
-When first starting,
-the simple_shell inspects argument 0 (the simple_shell doesn't handle
-login shell argument).
-
-If command line arguments besides the options have been specified,
-then the simple_shell treats the first argument as the name of a file
-from which to read commands (a shell script), and the remaining
-arguments are set as the positional parameters of the simple_shell.
-Otherwise, the simple_shell reads commands from its standart input
-using getline function.
 
 .SH SHELL GRAMMAR
 .SS simple commands
@@ -136,14 +99,12 @@ sh(1), bash(1), dash(1), csh(1), echo(1), environ(1)
 
 .SH EXAMPLE
 The following exmaples shows how to perform the different execution
-of a command on the simple_shell to list all the files on the /home
+of a command on the simple_shell to list all the files on the /usr
 directory with the long format argument.
 .TP
 1. ls -l /usr --> interactive mode
 .TP
-2. ./simple_shell -c "ls -l /usr" --> string option mode
-.TP
-3. echo "ls -l /usr" | ./simple_shell --> pipe mode
+2. echo "ls -l /usr" | ./simple_shell --> pipe mode
 
 .SH BUGS
 No know bugs
