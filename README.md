@@ -38,7 +38,7 @@ drwxr-xr-x  10 root root  4096 Nov  7  2019 local
 drwxr-xr-x   2 root root  4096 Jun  2 04:21 sbin
 drwxr-xr-x 140 root root  4096 Aug 13 18:02 share
 drwxr-xr-x   5 root root  4096 Nov  7  2019 src
-```
+
 $pwd
 /home/vagrant/simple_shell
 
@@ -56,7 +56,7 @@ drwxr-xr-x   2 root root  4096 Jun  2 04:21 sbin
 drwxr-xr-x 140 root root  4096 Aug 13 18:02 share
 drwxr-xr-x   5 root root  4096 Nov  7  2019 src
 bash $
-
+```
 ## Authors
 
 - Ana Ruth Morales [Github](https://github.com/Ana-Morales)
