@@ -7,16 +7,14 @@
  */
 char *_getenv(const char *name)
 {
-
-	char **env, *env1 = NULL;
-	char *tok, *path;
+	char **env, *env1 = NULL, *tok, *path;
 	char *env_name_val[500], *env2[100];
 	char *err = "Name not found";
-	int i, j;
+	int i = 0, j = 0;
 
+	if (name == NULL || *name == '\0')
+		name = "PATH";
 	env = environ;
-	i = 0;
-	j = 0;
 	while (env[i] != NULL)
 	{
 		env1 = _strdup(env[i]);
@@ -36,7 +34,7 @@ char *_getenv(const char *name)
 	{
 		if (_strcmp(env_name_val[j], name) == 0)
 		{
-			path = _strdup(env_name_val[j+1]);
+			path = _strdup(env_name_val[j + 1]);
 			i = 0;
 			while (env2[i] != NULL)
 			{
