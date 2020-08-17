@@ -11,7 +11,7 @@
  * the  arguments passed to the program.
  * Return: None
  */
-void exit_func(char *args)
+void exit_func(char **args)
 {
 	free(args);
 	exit(EXIT_SUCCESS);
@@ -24,7 +24,7 @@ void exit_func(char *args)
  * the  arguments passed to the program.
  * Return: None.
  */
-void display_env(char __attribute__((__unused__)) *args)
+void display_env(char __attribute__((__unused__)) **args)
 {
 	char **ep;
 
