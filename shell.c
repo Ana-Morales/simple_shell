@@ -24,7 +24,7 @@ int main(void)
 		if (chars != -1)
 		{
 			token_func(buffer, args);
-			if (args[0] == NULL || check_builtin(args[0]) == 0)
+			if (args[0] == NULL || check_builtin(&args[0]) == 0)
 				continue;
 			comm = _which(args[0]);
 			child_pid = fork();
