@@ -26,7 +26,7 @@ extern char *program_invocation_name;
 typedef struct builtin_s
 {
 	char *command;
-	void (*fp)(char *);
+	void (*fp)(char **);
 } builtin_t;
 
 int _putchar(char c);
@@ -36,11 +36,16 @@ char *_getenv(const char *name);
 int _strlen(const char *s);
 int _strcmp(const char *s1, const char *s2);
 char *_which(char *str);
-void exit_func(char *s);
-void display_env(char *s);
+void exit_func(char **s);
+void display_env(char **s);
 char *_strdup(char *str);
-int check_builtin(char *s);
+int check_builtin(char **s);
 int execute(char *comm, char *argv[], char *env[], int count);
 void token_func(char *buffer, char **args);
 char *_strcpy(char *dest, char *src);
+void builtin_setenv(char **args);
+void builtin_unsetenv(char **args);
+int _setenv(char *name, char *value, int overwrite);
+int _unsetenv(char *name);
+int _atoi(char *s);
 #endif /*_HOLBERTON_H_*/
