@@ -45,4 +45,5 @@ void _cd(char **args)
 			write(STDERR_FILENO, "\n", 1);
 		}
 	}
+	free(crtpwd);
 }
