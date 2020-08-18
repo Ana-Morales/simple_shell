@@ -8,7 +8,7 @@
 int main(void)
 {
 	pid_t child_pid;
-	int status, chars, count = 0;
+	int status, chars, count = 0, exit_status;
 	char *args[10], *comm, *buffer = NULL;
 	size_t bufsize = 1024;
 
@@ -26,6 +26,11 @@ int main(void)
 			token_func(buffer, args);
 			if (args[0] == NULL || check_builtin(&args[0]) == 0)
 				continue;
+			if (_strcmp(args[0], "exit") == 0)
+			{
+				exit_func(&args[0], &exit_status);
+				continue;
+			}
 			comm = _which(args[0]);
 			child_pid = fork();
 			if (child_pid == -1)
@@ -40,12 +45,18 @@ int main(void)
 				wait(&status);
 				if (_strcmp(comm, args[0]) != 0)
 					free(comm);
+				if (WIFEXITED(status))
+				{
+					exit_status = WEXITSTATUS(status);
+					if (exit_status == 1)
+						exit_status = 127;
+				}
 			}
 		}
 		else
-			break;
+			exit(exit_status);
 	}
-	return (0);
+	exit(exit_status);
 }
 /**
  * token_func - function to call strtok function
