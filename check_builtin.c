@@ -8,7 +8,6 @@
 int check_builtin(char **s)
 {
 	builtin_t builtin[] = {
-		{"exit", exit_func},
 		{"env", display_env},
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
