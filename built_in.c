@@ -9,16 +9,18 @@
  * exit_func - this function closes the prompt when the exit command is passed
  * @args: Pointer with the direction to free  the allocated memory for
  * the  arguments passed to the program.
+ * @exit_st: exit status
  * Return: None
  */
-void exit_func(char **args)
+void exit_func(char **args, int *exit_st)
 {
 	int exit_status = 0, len1 = 0, len2 = 0;
 
+	exit_status = *exit_st;
 	if (args[1] == NULL)
 	{
 		free(*args);
-		exit(EXIT_SUCCESS);
+		exit(exit_status);
 	}
 
 	exit_status = _atoi(args[1]);
@@ -30,6 +32,9 @@ void exit_func(char **args)
 		write(STDERR_FILENO, ": 1: exit: Illegal number: ", len2);
 		write(STDERR_FILENO, args[1], _strlen(args[1]));
 		write(STDERR_FILENO, "\n", 1);
+		if (isatty(STDIN_FILENO) == 0)
+			exit(2);
+		*exit_st = 2;
 	}
 	else
 	{
