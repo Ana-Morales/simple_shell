@@ -11,6 +11,7 @@ int check_builtin(char **s)
 		{"env", display_env},
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
+		{"cd", _cd},
 		{NULL, NULL},
 	};
 	int i = 0;
