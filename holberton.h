@@ -36,7 +36,7 @@ char *_getenv(const char *name);
 int _strlen(const char *s);
 int _strcmp(const char *s1, const char *s2);
 char *_which(char *str);
-void exit_func(char **s);
+void exit_func(char **s, int *exit_st);
 void display_env(char **s);
 char *_strdup(char *str);
 int check_builtin(char **s);
