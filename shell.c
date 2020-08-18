@@ -7,8 +7,7 @@
  */
 int main(void)
 {
-	pid_t child_pid;
-	int status, chars, count = 0, exit_status;
+	int chars, count = 0, exit_status = 0;
 	char *args[10], *comm, *buffer = NULL;
 	size_t bufsize = 1024;
 
@@ -25,38 +24,21 @@ int main(void)
 		{
 			token_func(buffer, args);
 			if (args[0] == NULL || check_builtin(&args[0]) == 0)
+			{
 				continue;
+			}
 			if (_strcmp(args[0], "exit") == 0)
 			{
 				exit_func(&args[0], &exit_status);
 				continue;
 			}
 			comm = _which(args[0]);
-			child_pid = fork();
-			if (child_pid == -1)
-			{
-				perror("Error");
-				return (1);
-			}
-			if (child_pid == 0)
-				execute(comm, args, NULL, count);
-			else
-			{
-				wait(&status);
-				if (_strcmp(comm, args[0]) != 0)
-					free(comm);
-				if (WIFEXITED(status))
-				{
-					exit_status = WEXITSTATUS(status);
-					if (exit_status == 1)
-						exit_status = 127;
-				}
-			}
+			fork_process(comm, args, count, &exit_status);
+
 		}
 		else
 			exit(exit_status);
 	}
-	exit(exit_status);
 }
 /**
  * token_func - function to call strtok function
@@ -74,7 +56,7 @@ void token_func(char *buffer, char **args)
 	for (i = 0; token != NULL; i++)
 	{
 		args[i] = token;
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, " \n\t");
 	}
 	args[i] = NULL;
 }
@@ -91,7 +73,36 @@ int execute(char *comm, char *args[], char *env[], int count)
 	if  (execve(comm, args, env) == -1)
 	{
 		write(STDERR_FILENO, "./", 2);
-		errx(EXIT_FAILURE, "%d: %s: not found", count, comm);
+		errx(127, "%d: %s: not found", count, comm);
 	}
 	return (0);
+}
+/**
+ * fork_process - creates a child process
+ * @comm: command to be executed by the child process
+ * @args:  array of argument strings passed to the command
+ * @count: counter for the number of executed commands
+ * @exit_status: pointer to set the exit status of the children process
+ */
+void fork_process(char *comm, char *args[], int count, int *exit_status)
+{
+	int status;
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("Error");
+		exit(1);
+	}
+	if (child_pid == 0)
+		execute(comm, args, NULL, count);
+	else
+	{
+		wait(&status);
+		if (_strcmp(comm, args[0]) != 0)
+			free(comm);
+		if (WIFEXITED(status))
+			*exit_status = WEXITSTATUS(status);
+	}
 }
