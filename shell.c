@@ -40,7 +40,7 @@ int main(void)
 			return (EXIT_SUCCESS);
 		{
 			free(buffer);
-			exit(exit_status);
+			exit(EXIT_SUCCES);
 		}
 	}
 	return (EXIT_SUCCESS);
