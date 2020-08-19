@@ -15,6 +15,8 @@ char *_which(char *str)
 	char *path_path[100], *path2;
 
 	path = _getenv("PATH");
+	if (path == NULL)
+		return (str);
 	path1 = _strdup(path);
 	token = strtok(path1, ":");
 	while (token != NULL)
