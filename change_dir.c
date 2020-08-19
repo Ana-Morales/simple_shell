@@ -14,9 +14,9 @@ void _cd(char **args)
 	crtpwd = getcwd(buffer, size);
 	if (args[1] == NULL ||  *args[1] == '\0')
 	{
-		home = _getenv("HOME");
-		_setenv("OLDPWD", crtpwd, 1);
-		_setenv("PWD", home, 1);
+		home = getenv("HOME");
+		setenv("OLDPWD", crtpwd, 1);
+		setenv("PWD", home, 1);
 		if (chdir(home) == -1)
 		{
 			perror("change dir:");
@@ -25,16 +25,16 @@ void _cd(char **args)
 	}
 	else if (*args[1] == '-')
 	{
-		old = _getenv("OLDPWD");
-		_setenv("OLDPWD", crtpwd, 1);
-		_setenv("PWD", old, 1);
+		old = getenv("OLDPWD");
+		setenv("OLDPWD", crtpwd, 1);
+		setenv("PWD", old, 1);
 		if (chdir(old) == -1)
 			perror("change dir:");
 	}
 	else
 	{
-		_setenv("OLDPWD", crtpwd, 1);
-		_setenv("PWD", args[1], 1);
+		setenv("OLDPWD", crtpwd, 1);
+		setenv("PWD", args[1], 1);
 		if (chdir(args[1]) == -1)
 		{
 			len1 = _strlen(program_invocation_name);
