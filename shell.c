@@ -8,7 +8,7 @@
 int main(void)
 {
 	int chars, count = 0, exit_status = 0;
-	char *args[10], *comm, *buffer = NULL;
+	char *args[100], *comm, *buffer = NULL;
 	size_t bufsize = 1024;
 
 	while (1)
@@ -70,10 +70,11 @@ void token_func(char *buffer, char **args)
  */
 int execute(char *comm, char *args[], char *env[], int count)
 {
+	(void)count;
 	if  (execve(comm, args, env) == -1)
 	{
-		write(STDERR_FILENO, "./", 2);
-		errx(127, "%d: %s: not found", count, comm);
+		perror(program_invocation_name);
+		exit(127);
 	}
 	return (0);
 }
