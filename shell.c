@@ -39,7 +39,7 @@ int main(void)
 		else
 		{
 			free(buffer);
-			exit(EXIT_SUCCESS);
+			exit(exit_status);
 		}
 	}
 	return (EXIT_SUCCESS);
