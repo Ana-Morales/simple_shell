@@ -39,6 +39,7 @@ int main(void)
 		else
 			exit(exit_status);
 	}
+	return (0);
 }
 /**
  * token_func - function to call strtok function
