@@ -8,7 +8,6 @@
 char *_getenv(const char *name)
 {
 	char **env = NULL, *env1 = NULL, *tok = NULL, *path = NULL;
-	char *err = "Name not found";
 	int i = 0;
 
 	if (name == NULL || *name == '\0')
@@ -35,5 +34,5 @@ char *_getenv(const char *name)
 		}
 		i++;
 	}
-	return (err);
+	return (NULL);
 }
