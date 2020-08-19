@@ -33,7 +33,7 @@ int main(void)
 				continue;
 			}
 			comm = _which(args[0]);
-			fork_process(comm, args, count, &exit_status);
+			fork_process(comm, args, count, &exit_status, buffer);
 
 		}
 		else
@@ -70,15 +70,16 @@ void token_func(char *buffer, char **args)
  * @args:  array of argument strings passed to the command
  * @env: array of strings passed as environment to command
  * @count: counter for the number of executed commands
+ * @b: Pointer to buffer.
  * Return: Always 0.
  */
-int execute(char *comm, char *args[], char *env[], int count)
+int execute(char *comm, char *args[], char *env[], int count, char *b)
 {
 	(void)count;
 	if  (execve(comm, args, env) == -1)
 	{
 		perror(program_invocation_name);
-		free(comm);
+		free(b);
 		exit(127);
 	}
 	return (0);
@@ -88,9 +89,10 @@ int execute(char *comm, char *args[], char *env[], int count)
  * @comm: command to be executed by the child process
  * @args:  array of argument strings passed to the command
  * @count: counter for the number of executed commands
- * @exit_status: pointer to set the exit status of the children process
+ * @exit_stat: pointer to set the exit status of the children process
+ * @b: pointer to buffer
  */
-void fork_process(char *comm, char *args[], int count, int *exit_status)
+void fork_process(char *comm, char *args[], int count, int *exit_stat, char *b)
 {
 	int status;
 	pid_t child_pid;
@@ -102,13 +104,13 @@ void fork_process(char *comm, char *args[], int count, int *exit_status)
 		exit(1);
 	}
 	if (child_pid == 0)
-		execute(comm, args, NULL, count);
+		execute(comm, args, NULL, count, b);
 	else
 	{
 		wait(&status);
 		if (_strcmp(comm, args[0]) != 0)
 			free(comm);
 		if (WIFEXITED(status))
-			*exit_status = WEXITSTATUS(status);
+			*exit_stat = WEXITSTATUS(status);
 	}
 }
