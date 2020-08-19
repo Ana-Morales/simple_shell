@@ -37,7 +37,10 @@ int main(void)
 
 		}
 		else
-			return (EXIT_SUCCESS);
+		{
+			free(buffer);
+			exit(EXIT_SUCCESS);
+		}
 	}
 	return (EXIT_SUCCESS);
 }
