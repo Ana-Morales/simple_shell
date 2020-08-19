@@ -78,6 +78,7 @@ int execute(char *comm, char *args[], char *env[], int count)
 	if  (execve(comm, args, env) == -1)
 	{
 		perror(program_invocation_name);
+		free(comm);
 		exit(127);
 	}
 	return (0);
