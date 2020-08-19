@@ -99,7 +99,7 @@ void fork_process(char *comm, char *args[], int count, int *exit_status)
 	if (child_pid == -1)
 	{
 		perror("Error");
-		exit(-1);
+		exit(1);
 	}
 	if (child_pid == 0)
 		execute(comm, args, NULL, count);
