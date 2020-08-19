@@ -14,7 +14,7 @@ char *_which(char *str)
 	char *slash = "/";
 	char *path_path[100], *path2;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	path1 = _strdup(path);
 	token = strtok(path1, ":");
 	while (token != NULL)
