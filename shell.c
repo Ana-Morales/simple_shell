@@ -37,7 +37,7 @@ int main(void)
 
 		}
 		else
-			return(EXIT_SUCCESS);
+			return (EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
 }
