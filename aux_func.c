@@ -109,21 +109,30 @@ char *_strdup(char *str)
 	s[i] = '\0';
 	return (s);
 }
-/**
- * _strcpy - copies the string pointed to by src, to buffer pointed to by dest.
- * @dest: string result of copying
- * @src: string to be copy
- * Return: the pointer to dest
- */
-char *_strcpy(char *dest, char *src)
-{
-	char *ans = dest;
 
-	while ((*dest = *src) != '\0')
+/**
+ *_strchr - a function that fills memory with a constant byte.
+ *@s: string to detect
+ *@c: character to detect on s
+ *
+ *Return: a pointer to the memory area dest.
+ */
+int _strchr(char *s, char c)
+{
+	int cont = 1;
+	int i = 0;
+
+	while (s[i] != '\0')
 	{
-		src++;
-		dest++;
+		cont += 1;
+		i++;
 	}
-	*dest = '\0';
-	return (ans);
+
+	while (cont--)
+	{
+		s++;
+		if (*s == c)
+			return (1);
+	}
+	return (0);
 }
