@@ -25,7 +25,7 @@ void _cd(char **args)
 	}
 	else if (*args[1] == '-')
 	{
-		old = getenv("OLDPWD");
+		old = _getenv("OLDPWD");
 		_setenv("OLDPWD", crtpwd, 1);
 		_setenv("PWD", old, 1);
 		if (chdir(old) == -1)
