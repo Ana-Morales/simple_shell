@@ -26,9 +26,7 @@ char *_which(char *str)
 		token = strtok(NULL, ":");
 	}
 	path_path[j] = NULL;
-
 	str1 = str_concat(slash, str);
-
 	for (j = 0; path_path[j] != NULL; j++)
 	{
 		path2 = str_concat(path_path[j], str1);
