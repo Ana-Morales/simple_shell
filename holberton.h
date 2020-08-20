@@ -47,7 +47,7 @@ void builtin_unsetenv(char **args);
 int _setenv(char *name, char *value, int overwrite);
 int _unsetenv(char *name);
 int _atoi(char *s);
-void fork_process(char *comm, char *args[], int count, int *exit_stat, char *b);
+void fork_process(char *comm, char *args[], int cnt, int *exit_st, char *b);
 void _cd(char **args);
 int _strchr(char *s, char c);
 #endif /*_HOLBERTON_H_*/
