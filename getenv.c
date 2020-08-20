@@ -19,7 +19,7 @@ char *_getenv(const char *name)
 		tok = strtok(env1, "=");
 		while (tok != NULL)
 		{
-			if (_strcmp(tok, name) == 0)
+			if (_strcmp(name, tok) == 0)
 			{
 				tok = strtok(NULL, "=");
 				path = _strdup(tok);
