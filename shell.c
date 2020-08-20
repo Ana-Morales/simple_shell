@@ -75,10 +75,15 @@ void token_func(char *buffer, char **args)
  */
 int execute(char *comm, char *args[], char *env[], int count, char *b)
 {
+	int len1 = 0;
 	(void)count;
 	if  (execve(comm, args, env) == -1)
 	{
-		perror(program_invocation_name);
+		len1 = _strlen(program_invocation_name);
+		write(STDERR_FILENO, program_invocation_name, len1);
+		write(STDERR_FILENO, ": 1: ", 5);
+		write(STDERR_FILENO, args[0], _strlen(args[0]));
+		write(STDERR_FILENO, ": not found\n", 12);
 		free(b);
 		exit(127);
 	}
