@@ -42,7 +42,6 @@ char *_strdup(char *str);
 int check_builtin(char **s);
 int execute(char *comm, char *argv[], char *env[], int count, char *b);
 void token_func(char *buffer, char **args);
-char *_strcpy(char *dest, char *src);
 void builtin_setenv(char **args);
 void builtin_unsetenv(char **args);
 int _setenv(char *name, char *value, int overwrite);
@@ -50,4 +49,5 @@ int _unsetenv(char *name);
 int _atoi(char *s);
 void fork_process(char *comm, char *args[], int count, int *exit_stat, char *b);
 void _cd(char **args);
+int _strchr(char *s, char c);
 #endif /*_HOLBERTON_H_*/
